@@ -1,0 +1,116 @@
+[versions]
+# ------Kotlin------
+kotlin = "1.5.31"
+
+# ------Code Quality------
+detekt = "1.18.1"
+ktlintGradle = "10.2.0"
+
+# ------Design & Compatibility------
+material = "1.4.0"
+appcompat = "1.3.1"
+annotation = "1.2.0"
+core = "1.7.0"
+coreSplash = "1.0.0-alpha02"
+
+# ------Componenets------
+fragment = "1.3.6"
+
+# ------Layouts------
+coordinatorLayout = "1.1.0"
+constraintLayout = "2.1.1"
+
+# ------DI------
+kodein = "7.9.0"
+
+# ------Jetpack------
+lifecycle = "2.4.0"
+navigation = "2.3.5"
+
+# ------Play------
+play-core = "1.8.2"
+
+# ------Logging------
+timber = "5.0.1"
+flipper = "0.118.0"
+soloader = "0.10.1"
+
+# ------Unit Test------
+junit-5 = "5.8.1"
+mockk = "1.4.1"
+
+# ------Android Test------
+test-runner = "1.4.0"
+espresso = "3.4.0"
+arch-test = "2.1.0"
+
+# ------Spek------
+spek = "2.0.17"
+
+[libraries]
+# ------Kotlin------
+kotlin-jdk8 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = { require = "latest.release" } }
+kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = { require = "latest.release" } }
+
+# ------Design & Compatibility------
+android-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+android-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+android-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+android-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
+android-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplash" }
+
+# ------Components------
+component-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
+
+# ------DI------
+kodein-di = { group = "org.kodein.di", name = "kodein-di", version.ref = "kodein"}
+kodein-android = { group = "org.kodein.di", name = "kodein-di-framework-android-x-viewmodel-savedstate", version.ref = "kodein"}
+
+# ------Layouts------
+layout-coordinator = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorLayout" }
+layout-constraint = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
+
+# ------Jetpack------
+viewmodel = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle"}
+savedstate = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle"}
+lifecycle-java = {group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle"}
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+navigation-dyf = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigation" }
+
+# ------Play------
+play-core = { group = "com.google.android.play", name = "core", version.ref = "play-core" }
+
+# ------Logging------
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber"}
+flipper-debug = { group = "com.facebook.flipper", name = "flipper", version.ref = "flipper"}
+flipper-release = { group = "com.facebook.flipper", name = "flipper-noop", version.ref = "flipper"}
+soloader = { group = "com.facebook.soloader", name = "soloader", version.ref = "soloader"}
+
+# ------Unit Test------
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = { require = "latest.release"} }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-5" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit-5" }
+
+# ------Android Test------
+test-runner = { group = "androidx.test", name = "runner", version.ref = "test-runner" }
+espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+arch-test = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-test" }
+
+# ------Spek------
+spek-dsl = { group = "org.spekframework.spek2", name = "spek-dsl-jvm", version.ref = "spek"}
+spek-runner = { group = "org.spekframework.spek2", name = "spek-runner-junit5", version.ref = "spek"}
+
+[bundles]
+kotlin = ["kotlin-jdk8", "kotlin-reflect", "kotlin-coroutines", "kotlin-serialization"]
+commons = ["android-material", "android-appcompat", "android-annotation", "android-core"]
+components = ["component-fragment"]
+layouts = ["layout-coordinator", "layout-constraint"]
+kodein = ["kodein-di", "kodein-android"]
+lifecycle = ["viewmodel", "savedstate", "lifecycle-java"]
+navigation = ["navigation-fragment", "navigation-ui-ktx"]
+test-unit = ["mockk", "test-coroutines", "junit-jupiter-api", "junit-jupiter-engine", "spek-dsl", "spek-runner"]
+test-platform = ["test-runner", "espresso", "arch-test"]
