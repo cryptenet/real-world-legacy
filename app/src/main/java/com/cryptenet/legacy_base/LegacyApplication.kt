@@ -15,7 +15,7 @@ import org.kodein.di.android.x.androidXModule
 import timber.log.Timber
 
 @Suppress("unused")
-class LegacyApplication: SplitCompatApplication(), DIAware {
+class LegacyApplication : SplitCompatApplication(), DIAware {
     override val di by DI.lazy {
         import(androidXModule(this@LegacyApplication))
     }

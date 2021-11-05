@@ -1,5 +1,5 @@
-import com.android.build.gradle.internal.dsl.BaseFlavor
 import com.android.build.api.dsl.VariantDimension
+import com.android.build.gradle.internal.dsl.BaseFlavor
 
 plugins {
     id(GradlePluginId.ANDROID_APPLICATION)
@@ -111,10 +111,14 @@ fun getFeatureNames() = ModuleDependency
     .map { it.replace(":feature_", "") }
     .toTypedArray()
 
-fun String.toSnakeCase() = this.split(Regex("(?=[A-Z])")).joinToString("_") { it.toLowerCase() }
-
+fun String.toSnakeCase() = this.split(Regex("(?=[A-Z])"))
+    .joinToString("_") {
+        it.toLowerCase()
+    }
 
 fun VariantDimension.buildConfigField(name: String, value: Array<String>) {
-    val strValue = value.joinToString(prefix = "{", separator = ",", postfix = "}", transform = { "\"$it\"" })
+    val strValue = value.joinToString(
+        prefix = "{", separator = ",", postfix = "}", transform = { "\"$it\"" }
+    )
     buildConfigField("String[]", name, strValue)
 }

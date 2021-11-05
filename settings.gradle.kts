@@ -1,7 +1,7 @@
 rootProject.name = "Legacy Base"
 rootProject.buildFileName = "build.gradle.kts"
 
-include (":app")
+include(":app")
 
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")
