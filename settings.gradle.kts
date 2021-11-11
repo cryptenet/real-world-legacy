@@ -14,6 +14,12 @@ pluginManagement {
     }
 
     plugins {
+        val detektVersion: String by settings
+        id("io.gitlab.arturbosch.detekt") version detektVersion
+
+        val ktlintGradleVersion: String by settings
+        id("org.jlleitschuh.gradle.ktlint") version ktlintGradleVersion
+
         val agpVersion: String by settings
         id("com.android.application") version agpVersion
         id("com.android.library") version agpVersion
@@ -28,11 +34,7 @@ pluginManagement {
         val navigationVersion: String by settings
         id("androidx.navigation.safeargs.kotlin") version navigationVersion
 
-        val detektVersion: String by settings
-        id("io.gitlab.arturbosch.detekt") version detektVersion
-
-        val ktlintGradleVersion: String by settings
-        id("org.jlleitschuh.gradle.ktlint") version ktlintGradleVersion
+        id("org.gradle.jacoco")
 
         val androidJUnit5Version: String by settings
         id("de.mannodermaus.android-junit5") version androidJUnit5Version
@@ -47,17 +49,13 @@ pluginManagement {
                     val agpCoordinates: String by settings
                     useModule(agpCoordinates)
                 }
-                "dagger.hilt.android.plugin" -> {
-                    val hiltCoordinates: String by settings
-                    useModule(hiltCoordinates)
-                }
                 "androidx.navigation.safeargs.kotlin" -> {
                     val navigationCoordinates: String by settings
                     useModule(navigationCoordinates)
                 }
                 "de.mannodermaus.android-junit5" -> {
-                    val androidJnit5Coordinates: String by settings
-                    useModule(androidJnit5Coordinates)
+                    val androidJUnit5Coordinates: String by settings
+                    useModule(androidJUnit5Coordinates)
                 }
             }
         }

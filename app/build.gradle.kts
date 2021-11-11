@@ -2,13 +2,14 @@ import com.android.build.api.dsl.VariantDimension
 import com.android.build.gradle.internal.dsl.BaseFlavor
 
 plugins {
-    id(GradlePluginId.ANDROID_APPLICATION)
-    id(GradlePluginId.KOTLIN_ANDROID)
-    id(GradlePluginId.KOTLIN_KAPT)
-    id(GradlePluginId.KOTLIN_SERIALIZATION)
-    id(GradlePluginId.SAFE_ARGS)
-    id(GradlePluginId.KTLINT_GRADLE)
-    id(GradlePluginId.ANDROID_JUNIT_5)
+    with(GradlePluginId) {
+        id(ANDROID_APPLICATION)
+        id(KOTLIN_ANDROID)
+        id(KOTLIN_KAPT)
+        id(KOTLIN_SERIALIZATION)
+        id(SAFE_ARGS)
+        id(ANDROID_JUNIT_5)
+    }
 }
 
 android {
@@ -18,8 +19,10 @@ android {
         applicationId = AndroidConfig.ID
         minSdk = AndroidConfig.MIN_SDK_VERSION
         targetSdk = AndroidConfig.TARGET_SDK_VERSION
+        buildToolsVersion = AndroidConfig.BUILD_TOOLS_VERSION
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
+
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
 
         buildConfigField("FEATURE_MODULE_NAMES", getFeatureNames())
@@ -45,10 +48,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-
-        testOptions {
-            unitTests.isReturnDefaultValues = TestOptions.IS_RETURN_DEFAULT_VALUES
-        }
     }
 
     buildFeatures {
@@ -57,11 +56,6 @@ android {
     }
 
     dynamicFeatures.addAll(ModuleDependency.getFeatureModules().toMutableSet())
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
 
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
@@ -88,14 +82,14 @@ dependencies {
 
     api(libs.bundles.kodein)
 
-    api(libs.timber)
-    debugApi(libs.flipper.debug)
-    debugApi(libs.soloader)
+    debugApi(libs.timber)
 
-    releaseApi(libs.flipper.release)
+    debugApi(libs.leakcanary)
 
     testApi(libs.bundles.test.unit)
+    testRuntimeOnly(libs.bundles.test.runtime.unit)
     androidTestApi(libs.bundles.test.platform)
+    androidTestRuntimeOnly(libs.bundles.test.runtime.platform)
 }
 
 fun BaseFlavor.buildConfigFieldFromGradleProperty(gradlePropertyName: String) {

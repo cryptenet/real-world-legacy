@@ -1,16 +1,21 @@
 package com.cryptenet.legacy_base
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.google.common.truth.Truth.assertThat
+import org.spekframework.spek2.Spek
+import org.spekframework.spek2.style.gherkin.Feature
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+object ExampleUnitTest: Spek({
+    Feature("Example") {
+        var target = 0
+
+        Scenario("Sample Test") {
+            When("adding 2 with 2") {
+                target = 2 + 2
+            }
+
+            Then("it should be equal to 4") {
+                assertThat(target).isEqualTo(4)
+            }
+        }
     }
-}
+})

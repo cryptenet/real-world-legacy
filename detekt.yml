@@ -44,7 +44,7 @@ output-reports:
   exclude:
   # - 'TxtOutputReport'
   # - 'XmlOutputReport'
-  # - 'HtmlOutputReport'
+   - 'HtmlOutputReport'
 
 comments:
   active: true

@@ -2,27 +2,28 @@ import com.android.build.gradle.BaseExtension
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-    id(GradlePluginId.DETEKT)
-    id(GradlePluginId.KTLINT_GRADLE)
-    id(GradlePluginId.ANDROID_APPLICATION) apply false
-    id(GradlePluginId.ANDROID_DYNAMIC_FEATURE) apply false
-    id(GradlePluginId.ANDROID_LIBRARY) apply false
-    id(GradlePluginId.KOTLIN_ANDROID) apply false
-    id(GradlePluginId.KOTLIN_KAPT) apply false
-    id(GradlePluginId.KOTLIN_SERIALIZATION) apply false
-    id(GradlePluginId.ANDROID_JUNIT_5) apply false
-    id(GradlePluginId.SAFE_ARGS) apply false
+    with(GradlePluginId) {
+        id(DETEKT)
+        id(KTLINT_GRADLE)
+        id(ANDROID_APPLICATION) apply false
+        id(ANDROID_DYNAMIC_FEATURE) apply false
+        id(ANDROID_LIBRARY) apply false
+        id(KOTLIN_ANDROID) apply false
+        id(KOTLIN_KAPT) apply false
+        id(KOTLIN_SERIALIZATION) apply false
+        id(SAFE_ARGS) apply false
+        id(JACOCO)
+        id(ANDROID_JUNIT_5) apply false
+    }
 }
 
 allprojects {
     apply(plugin = GradlePluginId.KTLINT_GRADLE)
+    apply(plugin = GradlePluginId.JACOCO)
 
     ktlint {
         verbose.set(true)
         android.set(true)
-
-        // Uncomment below line and run .\gradlew ktlintCheck to see check ktlint experimental rules
-        // enableExperimentalRules.set(true)
 
         reporters {
             reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.CHECKSTYLE)
@@ -33,17 +34,36 @@ allprojects {
         }
     }
 
+    jacoco {
+        val jacocoVersion: String by project
+        toolVersion = jacocoVersion
+    }
+
     dependencyLocking {
         lockAllConfigurations()
     }
 }
 
 subprojects {
-    tasks.withType<Test> {
-        maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
+    apply(plugin = GradlePluginId.DETEKT)
+
+    tasks.withType<JacocoReport>().all {
+        reports {
+            html.isEnabled = true
+            xml.isEnabled = false
+            csv.isEnabled = false
+        }
     }
 
-    apply(plugin = GradlePluginId.DETEKT)
+    tasks.withType<Test> {
+        useJUnitPlatform {
+            includeEngines.add("spek2")
+        }
+
+        maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
+
+        finalizedBy("jacocoTestReport")
+    }
 
     detekt {
         config = files("$rootDir/detekt.yml")
@@ -51,7 +71,7 @@ subprojects {
         parallel = true
 
         // By default detekt does not check test source set and gradle specific files, so hey have to be added manually
-        input = files(
+        source = files(
             "$rootDir/buildSrc",
             "$rootDir/build.gradle.kts",
             "$rootDir/settings.gradle.kts",
@@ -70,11 +90,27 @@ fun Project.configureAndroid() {
         sourceSets {
             map { it.java.srcDir("src/${it.name}/kotlin") }
         }
+
+        compileOptions {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        lintOptions {
+            isAbortOnError = false
+        }
+
+        testOptions {
+            unitTests {
+                isReturnDefaultValues = TestOptions.IS_RETURN_DEFAULT_VALUES
+                isIncludeAndroidResources = TestOptions.IS_INCLUDE_ANDROID_RESOURCES
+            }
+        }
     }
 }
 
 tasks.withType<Detekt> {
-    this.jvmTarget = "1.8"
+    this.jvmTarget = JavaVersion.VERSION_1_8.toString()
 }
 
 task("staticCheck") {
@@ -95,7 +131,6 @@ task("staticCheck") {
                 it.addAll(testTasks)
             }
 
-        // By defining Gradle dependency all dependent tasks will run before this "empty" task
         dependsOn(taskDependencies)
     }
 }
