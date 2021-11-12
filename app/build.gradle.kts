@@ -82,7 +82,7 @@ dependencies {
 
     api(libs.bundles.kodein)
 
-    debugApi(libs.timber)
+    api(libs.timber)
 
     debugApi(libs.leakcanary)
 

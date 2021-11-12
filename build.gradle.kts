@@ -19,7 +19,6 @@ plugins {
 
 allprojects {
     apply(plugin = GradlePluginId.KTLINT_GRADLE)
-    apply(plugin = GradlePluginId.JACOCO)
 
     ktlint {
         verbose.set(true)
@@ -34,11 +33,6 @@ allprojects {
         }
     }
 
-    jacoco {
-        val jacocoVersion: String by project
-        toolVersion = jacocoVersion
-    }
-
     dependencyLocking {
         lockAllConfigurations()
     }
@@ -46,6 +40,27 @@ allprojects {
 
 subprojects {
     apply(plugin = GradlePluginId.DETEKT)
+    apply(plugin = GradlePluginId.JACOCO)
+
+    detekt {
+        config = files("$rootDir/detekt.yml")
+
+        parallel = true
+
+        // By default detekt does not check test source set and gradle specific files, so hey have to be added manually
+        source = files(
+            "$rootDir/buildSrc",
+            "$rootDir/build.gradle.kts",
+            "$rootDir/settings.gradle.kts",
+            "src/main/kotlin",
+            "src/test/kotlin"
+        )
+    }
+
+    jacoco {
+        val jacocoVersion: String by project
+        toolVersion = jacocoVersion
+    }
 
     tasks.withType<JacocoReport>().all {
         reports {
@@ -63,21 +78,6 @@ subprojects {
         maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
 
         finalizedBy("jacocoTestReport")
-    }
-
-    detekt {
-        config = files("$rootDir/detekt.yml")
-
-        parallel = true
-
-        // By default detekt does not check test source set and gradle specific files, so hey have to be added manually
-        source = files(
-            "$rootDir/buildSrc",
-            "$rootDir/build.gradle.kts",
-            "$rootDir/settings.gradle.kts",
-            "src/main/kotlin",
-            "src/test/kotlin"
-        )
     }
 
     afterEvaluate {
