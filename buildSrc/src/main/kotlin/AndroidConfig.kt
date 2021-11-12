@@ -7,6 +7,9 @@ object AndroidConfig {
     const val VERSION_CODE = 1
     const val VERSION_NAME = "1.0.0"
 
+    const val VECTOR_DRAWABLES_SUPPORT = true
+    const val MULTIDEX_ENABLED = true
+
     const val ID = "com.cryptenet.legacy_base"
     const val TEST_INSTRUMENTATION_RUNNER = "androidx.test.runner.AndroidJUnitRunner"
 }

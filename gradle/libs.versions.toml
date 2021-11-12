@@ -12,6 +12,7 @@ appcompat = "1.3.1"
 annotation = "1.2.0"
 core = "1.7.0"
 coreSplash = "1.0.0-alpha02"
+multidex = "2.0.1"
 
 # ------Componenets------
 fragment = "1.3.6"
@@ -24,14 +25,23 @@ constraintLayout = "2.1.1"
 kodein = "7.9.0"
 
 # ------Jetpack------
-lifecycle = "2.4.0"
+lifecycle-core = "2.4.0"
+lifecycle-ext = "2.2.0"
 navigation = "2.3.5"
 
-# ------Datastore------
+# ------Local Store------
 datastore = "1.0.0"
 
-# ------Room------
+# ------Database------
 room = "2.3.0"
+
+# ------Network------
+retrofit-core = "2.9.0"
+retrofit-serialization = "0.8.0"
+okhttp = "4.9.2"
+
+# ------Image loading------
+coil = "1.4.0"
 
 # ------Play------
 play-core = "1.8.2"
@@ -69,6 +79,7 @@ android-appcompat = { group = "androidx.appcompat", name = "appcompat", version.
 android-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 android-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
 android-splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplash" }
+multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
 
 # ------Components------
 component-fragment = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
@@ -82,9 +93,10 @@ layout-coordinator = { group = "androidx.coordinatorlayout", name = "coordinator
 layout-constraint = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintLayout" }
 
 # ------Jetpack------
-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
-savedstate = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle" }
-lifecycle-java = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle" }
+viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-core" }
+savedstate = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-savedstate", version.ref = "lifecycle-core" }
+lifecycle-java = { group = "androidx.lifecycle", name = "lifecycle-common-java8", version.ref = "lifecycle-core" }
+lifecycle-ext = { group = "androidx.lifecycle", name = "lifecycle-extensions", version.ref = "lifecycle-ext" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 navigation-dyf = { group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "navigation" }
@@ -93,19 +105,27 @@ navigation-dyf = { group = "androidx.navigation", name = "navigation-dynamic-fea
 datastore-pref = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 datastore-proto = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
-# ------Datastore------
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
-room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+# ------Local Store------
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 # ------Play------
 play-core = { group = "com.google.android.play", name = "core", version.ref = "play-core" }
+
+# ------Database------
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-core" }
+retrofit-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofit-serialization" }
+okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+
+# ------Database------
+coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 
 # ------Logging------
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 # ------Leak Canary------
-leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref="leakcanary"}
+leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 
 # ------Common Test------
 mockk-core = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
@@ -122,7 +142,7 @@ jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", v
 
 # ------Unit Test------
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = { require = "latest.release" } }
-room-test = { group = "androidx.room", name = "room-testing", version.ref = "room"}
+room-test = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 
 # ------Android Test------
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
@@ -137,10 +157,11 @@ commons = ["android-material", "android-appcompat", "android-annotation", "andro
 components = ["component-fragment"]
 layouts = ["layout-coordinator", "layout-constraint"]
 kodein = ["kodein-di", "kodein-android"]
-lifecycle = ["viewmodel", "savedstate", "lifecycle-java"]
+lifecycle = ["viewmodel", "savedstate", "lifecycle-java", "lifecycle-ext"]
 navigation = ["navigation-fragment", "navigation-ui-ktx"]
-datastore = ["datastore-pref", "datastore-proto"]
-room = ["room-runtime", "room-ktx"]
+localstore = ["datastore-pref", "datastore-proto"]
+database = ["room-runtime", "room-ktx"]
+network = ["retrofit-core", "retrofit-serialization", "okhttp-interceptor"]
 test-unit = [
     "mockk-core", "mockk-agent", "truth-core", "truth-java",
     "test-coroutines",

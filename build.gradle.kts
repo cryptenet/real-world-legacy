@@ -10,6 +10,7 @@ plugins {
         id(ANDROID_LIBRARY) apply false
         id(KOTLIN_ANDROID) apply false
         id(KOTLIN_KAPT) apply false
+        id(KOTLIN_PARCELIZE) apply false
         id(KOTLIN_SERIALIZATION) apply false
         id(SAFE_ARGS) apply false
         id(KSP) apply false

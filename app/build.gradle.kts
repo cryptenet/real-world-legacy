@@ -6,6 +6,7 @@ plugins {
         id(ANDROID_APPLICATION)
         id(KOTLIN_ANDROID)
         id(KOTLIN_KAPT)
+        id(KOTLIN_PARCELIZE)
         id(KOTLIN_SERIALIZATION)
         id(SAFE_ARGS)
         id(KSP)
@@ -23,6 +24,8 @@ android {
         buildToolsVersion = AndroidConfig.BUILD_TOOLS_VERSION
         versionCode = AndroidConfig.VERSION_CODE
         versionName = AndroidConfig.VERSION_NAME
+        vectorDrawables.useSupportLibrary = AndroidConfig.VECTOR_DRAWABLES_SUPPORT
+        multiDexEnabled = AndroidConfig.MULTIDEX_ENABLED
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
 
@@ -74,6 +77,7 @@ android {
 dependencies {
     api(libs.bundles.kotlin)
     api(libs.bundles.commons)
+    api(libs.multidex)
 
     api(libs.bundles.components)
 
@@ -82,10 +86,12 @@ dependencies {
     api(libs.bundles.lifecycle)
     api(libs.bundles.navigation)
 
-    api(libs.bundles.datastore)
+    api(libs.bundles.localstore)
 
-    api(libs.bundles.room)
+    api(libs.bundles.database)
     ksp(libs.room.ksp)
+
+    api(libs.bundles.network)
 
     api(libs.play.core)
 

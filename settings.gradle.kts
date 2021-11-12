@@ -29,6 +29,7 @@ pluginManagement {
         id("org.jetbrains.kotlin.jvm") version kotlinVersion
         id("org.jetbrains.kotlin.android") version kotlinVersion
         id("org.jetbrains.kotlin.kapt") version kotlinVersion
+        id("org.jetbrains.kotlin.plugin.parcelize") version kotlinVersion
         id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
 
         val navigationVersion: String by settings

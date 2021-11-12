@@ -4,6 +4,7 @@ object GradlePluginId {
     const val ANDROID_LIBRARY = "com.android.library"
     const val KOTLIN_ANDROID = "org.jetbrains.kotlin.android"
     const val KOTLIN_KAPT = "org.jetbrains.kotlin.kapt"
+    const val KOTLIN_PARCELIZE = "org.jetbrains.kotlin.plugin.parcelize"
     const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin.plugin.serialization"
     const val SAFE_ARGS = "androidx.navigation.safeargs.kotlin"
     const val KSP = "com.google.devtools.ksp"
