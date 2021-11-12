@@ -8,6 +8,7 @@ plugins {
         id(KOTLIN_KAPT)
         id(KOTLIN_SERIALIZATION)
         id(SAFE_ARGS)
+        id(KSP)
         id(ANDROID_JUNIT_5)
     }
 }
@@ -82,6 +83,9 @@ dependencies {
     api(libs.bundles.navigation)
 
     api(libs.bundles.datastore)
+
+    api(libs.bundles.room)
+    ksp(libs.room.ksp)
 
     api(libs.play.core)
 

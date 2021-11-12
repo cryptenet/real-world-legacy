@@ -6,6 +6,7 @@ object GradlePluginId {
     const val KOTLIN_KAPT = "org.jetbrains.kotlin.kapt"
     const val KOTLIN_SERIALIZATION = "org.jetbrains.kotlin.plugin.serialization"
     const val SAFE_ARGS = "androidx.navigation.safeargs.kotlin"
+    const val KSP = "com.google.devtools.ksp"
     const val DETEKT = "io.gitlab.arturbosch.detekt"
     const val KTLINT_GRADLE = "org.jlleitschuh.gradle.ktlint"
     const val JACOCO = "org.gradle.jacoco"

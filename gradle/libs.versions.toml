@@ -30,6 +30,9 @@ navigation = "2.3.5"
 # ------Datastore------
 datastore = "1.0.0"
 
+# ------Room------
+room = "2.3.0"
+
 # ------Play------
 play-core = "1.8.2"
 
@@ -90,6 +93,11 @@ navigation-dyf = { group = "androidx.navigation", name = "navigation-dynamic-fea
 datastore-pref = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 datastore-proto = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
+# ------Datastore------
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room"}
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
 # ------Play------
 play-core = { group = "com.google.android.play", name = "core", version.ref = "play-core" }
 
@@ -114,6 +122,7 @@ jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", v
 
 # ------Unit Test------
 test-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = { require = "latest.release" } }
+room-test = { group = "androidx.room", name = "room-testing", version.ref = "room"}
 
 # ------Android Test------
 espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
@@ -131,12 +140,13 @@ kodein = ["kodein-di", "kodein-android"]
 lifecycle = ["viewmodel", "savedstate", "lifecycle-java"]
 navigation = ["navigation-fragment", "navigation-ui-ktx"]
 datastore = ["datastore-pref", "datastore-proto"]
+room = ["room-runtime", "room-ktx"]
 test-unit = [
     "mockk-core", "mockk-agent", "truth-core", "truth-java",
     "test-coroutines",
     "test-runner", "test-rules", "test-truth",
     "jupiter-api", "jupiter-params",
-    "arch-test",
+    "arch-test", "room-test",
     "spek-dsl", "spek-runner"
 ]
 test-runtime-unit = ["jupiter-engine"]

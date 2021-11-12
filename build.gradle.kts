@@ -12,6 +12,7 @@ plugins {
         id(KOTLIN_KAPT) apply false
         id(KOTLIN_SERIALIZATION) apply false
         id(SAFE_ARGS) apply false
+        id(KSP) apply false
         id(JACOCO)
         id(ANDROID_JUNIT_5) apply false
     }
@@ -87,6 +88,18 @@ subprojects {
 
 fun Project.configureAndroid() {
     (project.extensions.findByName("android") as? BaseExtension)?.run {
+        defaultConfig {
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    arguments += mapOf(
+                        "room.schemaLocation" to "$projectDir/schemas",
+                        "room.incremental" to "true",
+                        "room.expandProjection" to "true"
+                    )
+                }
+            }
+        }
+
         sourceSets {
             map { it.java.srcDir("src/${it.name}/kotlin") }
         }

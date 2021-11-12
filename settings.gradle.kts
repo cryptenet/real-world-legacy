@@ -34,6 +34,9 @@ pluginManagement {
         val navigationVersion: String by settings
         id("androidx.navigation.safeargs.kotlin") version navigationVersion
 
+        val kspVersion: String by settings
+        id("com.google.devtools.ksp") version kspVersion
+
         id("org.gradle.jacoco")
 
         val androidJUnit5Version: String by settings
@@ -69,5 +72,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        gradlePluginPortal()
     }
 }
