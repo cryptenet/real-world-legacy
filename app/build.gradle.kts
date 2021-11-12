@@ -73,10 +73,15 @@ android {
 dependencies {
     api(libs.bundles.kotlin)
     api(libs.bundles.commons)
+
     api(libs.bundles.components)
+
     api(libs.bundles.layouts)
+
     api(libs.bundles.lifecycle)
     api(libs.bundles.navigation)
+
+    api(libs.bundles.datastore)
 
     api(libs.play.core)
 
