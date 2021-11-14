@@ -1,4 +1,4 @@
-rootProject.name = "Legacy Base"
+rootProject.name = "Real World Legacy"
 rootProject.buildFileName = "build.gradle.kts"
 
 include(":app")

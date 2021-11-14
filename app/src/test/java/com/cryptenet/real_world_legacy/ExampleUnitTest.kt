@@ -1,4 +1,4 @@
-package com.cryptenet.legacy_base
+package com.cryptenet.real_world_legacy
 
 import com.google.common.truth.Truth.assertThat
 import org.spekframework.spek2.Spek
