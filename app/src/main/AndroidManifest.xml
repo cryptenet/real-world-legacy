@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cryptenet.legacy_base">
+    package="com.cryptenet.real_world_legacy">
 
     <application
-        android:name=".LegacyApplication"
+        android:name="com.cryptenet.real_world_legacy.RealWorldLegacyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LegacyBase">
         <activity
-            android:name=".MainActivity"
+            android:name="com.cryptenet.real_world_legacy.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.LegacyBase.NoActionBar">

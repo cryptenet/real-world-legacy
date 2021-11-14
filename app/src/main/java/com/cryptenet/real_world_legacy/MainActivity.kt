@@ -1,4 +1,4 @@
-package com.cryptenet.legacy_base
+package com.cryptenet.real_world_legacy
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.cryptenet.legacy_base.databinding.ActivityMainBinding
+import com.cryptenet.real_world_legacy.databinding.ActivityMainBinding
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {

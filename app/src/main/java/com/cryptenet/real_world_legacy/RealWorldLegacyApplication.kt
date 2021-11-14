@@ -1,4 +1,4 @@
-package com.cryptenet.legacy_base
+package com.cryptenet.real_world_legacy
 
 import android.content.Context
 import com.google.android.play.core.splitcompat.SplitCompatApplication
@@ -8,9 +8,9 @@ import org.kodein.di.android.x.androidXModule
 import timber.log.Timber
 
 @Suppress("unused")
-class LegacyApplication : SplitCompatApplication(), DIAware {
+class RealWorldLegacyApplication : SplitCompatApplication(), DIAware {
     override val di by DI.lazy {
-        import(androidXModule(this@LegacyApplication))
+        import(androidXModule(this@RealWorldLegacyApplication))
     }
 
     private lateinit var context: Context
