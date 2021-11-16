@@ -2,6 +2,8 @@ rootProject.name = "Real World Legacy"
 rootProject.buildFileName = "build.gradle.kts"
 
 include(":app")
+include(":library_core")
+include(":library_test")
 
 enableFeaturePreview("VERSION_CATALOGS")
 enableFeaturePreview("ONE_LOCKFILE_PER_PROJECT")

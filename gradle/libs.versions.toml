@@ -152,7 +152,7 @@ spek-dsl = { group = "org.spekframework.spek2", name = "spek-dsl-jvm", version.r
 spek-runner = { group = "org.spekframework.spek2", name = "spek-runner-junit5", version.ref = "spek" }
 
 [bundles]
-kotlin = ["kotlin-jdk8", "kotlin-reflect", "kotlin-coroutines", "kotlin-serialization"]
+kotlin = ["kotlin-jdk8", "kotlin-reflect"]
 commons = ["android-material", "android-appcompat", "android-annotation", "android-core"]
 components = ["component-fragment"]
 layouts = ["layout-coordinator", "layout-constraint"]

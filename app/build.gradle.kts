@@ -8,6 +8,7 @@ plugins {
         id(KOTLIN_KAPT)
         id(KOTLIN_PARCELIZE)
         id(KOTLIN_SERIALIZATION)
+        id(KTLINT_GRADLE)
         id(SAFE_ARGS)
         id(KSP)
         id(ANDROID_JUNIT_5)
@@ -33,7 +34,7 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        getByName(BuildType.DEBUG) {
             isShrinkResources = BuildTypeDebug.isShrinkResources
             isMinifyEnabled = BuildTypeDebug.isMinifyEnabled
             isDebuggable = BuildTypeDebug.isDebuggable
@@ -43,7 +44,7 @@ android {
             )
         }
 
-        getByName("release") {
+        getByName(BuildType.RELEASE) {
             isShrinkResources = BuildTypeRelease.isShrinkResources
             isMinifyEnabled = BuildTypeRelease.isMinifyEnabled
             isDebuggable = BuildTypeRelease.isDebuggable
@@ -62,7 +63,7 @@ android {
     dynamicFeatures.addAll(ModuleDependency.getFeatureModules().toMutableSet())
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaOptions.VERSION.toString()
     }
 
     kapt {
@@ -75,8 +76,10 @@ android {
 }
 
 dependencies {
-    api(libs.bundles.kotlin)
+    api(libs.kotlin.coroutines)
+    api(libs.kotlin.serialization)
     api(libs.bundles.commons)
+    implementation(libs.android.splash)
     api(libs.multidex)
 
     api(libs.bundles.components)
@@ -101,9 +104,12 @@ dependencies {
 
     debugApi(libs.leakcanary)
 
-    testApi(libs.bundles.test.unit)
+    testImplementation(project(ModuleDependency.LIBRARY_TEST))
+
+    testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.bundles.test.runtime.unit)
-    androidTestApi(libs.bundles.test.platform)
+
+    androidTestImplementation(libs.bundles.test.platform)
     androidTestRuntimeOnly(libs.bundles.test.runtime.platform)
 }
 

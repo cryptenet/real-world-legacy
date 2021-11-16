@@ -35,6 +35,10 @@ allprojects {
         }
     }
 
+    configurations.all {
+        resolutionStrategy.force("org.objenesis:objenesis:2.6")
+    }
+
     dependencyLocking {
         lockAllConfigurations()
     }
@@ -85,6 +89,29 @@ subprojects {
     afterEvaluate {
         configureAndroid()
     }
+
+    configurations.all {
+        resolutionStrategy.componentSelection {
+            all {
+                val detektExceptions = listOf(
+                    "io.gitlab.arturbosch.detekt",
+                    "com.fasterxml.jackson",
+                    "com.fasterxml.jackson.core",
+                    "com.fasterxml.jackson"
+                )
+
+                if (detektExceptions.any { it == candidate.group }) {
+                    return@all
+                }
+
+                val androidLintExceptions = listOf("com.android.tools.build")
+
+                if (androidLintExceptions.any { it == candidate.group }) {
+                    return@all
+                }
+            }
+        }
+    }
 }
 
 fun Project.configureAndroid() {
@@ -106,8 +133,8 @@ fun Project.configureAndroid() {
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = JavaOptions.VERSION
+            targetCompatibility = JavaOptions.VERSION
         }
 
         lintOptions {
@@ -124,7 +151,7 @@ fun Project.configureAndroid() {
 }
 
 tasks.withType<Detekt> {
-    this.jvmTarget = JavaVersion.VERSION_1_8.toString()
+    this.jvmTarget = JavaOptions.VERSION.toString()
 }
 
 task("staticCheck") {
@@ -132,11 +159,17 @@ task("staticCheck") {
 
     afterEvaluate {
         // Filter modules with "lintDebug" task (non-Android modules do not have lintDebug task)
-        val lintTasks = subprojects.mapNotNull { "${it.name}:lintDebug" }
+        val lintTasks = subprojects.mapNotNull {
+            if (it.name.startsWith("feature_")) {
+                "${it.name}:lintAnalyzeDebug"
+            } else {
+                "${it.name}:lintDebug"
+            }
+        }.filterNot { it.startsWith("library_") }
 
         // Get modules with "testDebugUnitTest" task (app module does not have it)
         val testTasks = subprojects.mapNotNull { "${it.name}:testDebugUnitTest" }
-            .filter { it != "app:testDebugUnitTest" }
+            .filterNot { it == "app:testDebugUnitTest" || it.startsWith("library_") }
 
         // All task dependencies
         val taskDependencies =
