@@ -3,6 +3,7 @@ import kotlin.reflect.full.memberProperties
 @Suppress("unused")
 object ModuleDependency {
     const val APP = ":app"
+    const val FEATURE_AUTH = ":feature_auth"
     const val LIBRARY_CORE = ":library_core"
     const val LIBRARY_TEST = ":library_test"
 

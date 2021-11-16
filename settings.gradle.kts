@@ -2,6 +2,7 @@ rootProject.name = "Real World Legacy"
 rootProject.buildFileName = "build.gradle.kts"
 
 include(":app")
+include(":feature_auth")
 include(":library_core")
 include(":library_test")
 
