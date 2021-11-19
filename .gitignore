@@ -89,9 +89,6 @@ lint/reports/
 # Android Profiling
 *.hprof
 
-# VS Code
-.vscode
-
 # OS-specific files
 .DS_Store
 .DS_Store?
