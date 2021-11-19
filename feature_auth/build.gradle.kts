@@ -1,7 +1,12 @@
+import java.util.*
+import kotlinx.kover.api.CoverageEngine.JACOCO
+import kotlinx.kover.api.KoverTaskExtension
+
 plugins {
     with(GradlePluginId) {
         id(ANDROID_DYNAMIC_FEATURE)
         id(KOTLIN_ANDROID)
+        id(KOTLIN_KAPT)
         id(KOTLIN_PARCELIZE)
         id(KOTLIN_SERIALIZATION)
         id(SAFE_ARGS)
@@ -35,6 +40,33 @@ android {
         }
     }
 
+    flavorDimensions.add(FlavorType.DIMENSION)
+    productFlavors {
+        create(FlavorType.DEVELOPMENT) {
+            val devProps = Properties().apply {
+                File(project.rootDir, FlavorTypeDevelopment.propFile).inputStream()
+                    .use { inputStream ->
+                        load(inputStream)
+                    }
+            }
+            for (key in devProps.keys()) {
+                buildConfigField("String", key as String, devProps[key] as String)
+            }
+        }
+
+        create(FlavorType.PRODUCTION) {
+            val prodProps = Properties().apply {
+                File(project.rootDir, FlavorTypeDevelopment.propFile).inputStream()
+                    .use { inputStream ->
+                        load(inputStream)
+                    }
+            }
+            for (key in prodProps.keys()) {
+                buildConfigField("String", key as String, prodProps[key] as String)
+            }
+        }
+    }
+
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -42,6 +74,37 @@ android {
 
     kotlinOptions {
         jvmTarget = JavaOptions.VERSION.toString()
+    }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
+    lint {
+        isIgnoreTestSources = true
+    }
+
+    testOptions {
+        unitTests {
+            all {
+                if (it.name == "testDebugUnitTest") {
+                    extensions.configure(KoverTaskExtension::class) {
+                        isEnabled = true
+                        binaryReportFile.set(file("$buildDir/reports/kover/debug-report.bin"))
+                        includes = listOf("com\\.cryptenet\\.rwl_rest\\..*")
+                        excludes =
+                            listOf("com\\.cryptenet\\.rwl_rest\\.databinding\\..*", "androidx\\..*")
+                    }
+                }
+            }
+        }
+    }
+
+    kover {
+        isEnabled = true
+        coverageEngine.set(JACOCO)
+        jacocoEngineVersion.set("0.8.7")
+        generateReportOnCheck.set(true)
     }
 }
 

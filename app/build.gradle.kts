@@ -1,5 +1,8 @@
 import com.android.build.api.dsl.VariantDimension
 import com.android.build.gradle.internal.dsl.BaseFlavor
+import java.util.*
+import kotlinx.kover.api.CoverageEngine.JACOCO
+import kotlinx.kover.api.KoverTaskExtension
 
 plugins {
     with(GradlePluginId) {
@@ -10,7 +13,6 @@ plugins {
         id(KOTLIN_SERIALIZATION)
         id(KTLINT_GRADLE)
         id(SAFE_ARGS)
-        id(KSP)
         id(ANDROID_JUNIT_5)
     }
 }
@@ -29,8 +31,6 @@ android {
         multiDexEnabled = AndroidConfig.MULTIDEX_ENABLED
 
         testInstrumentationRunner = AndroidConfig.TEST_INSTRUMENTATION_RUNNER
-
-        buildConfigField("FEATURE_MODULE_NAMES", getFeatureNames())
     }
 
     buildTypes {
@@ -55,6 +55,39 @@ android {
         }
     }
 
+    flavorDimensions.add(FlavorType.DIMENSION)
+    productFlavors {
+        create(FlavorType.DEVELOPMENT) {
+            applicationIdSuffix = FlavorTypeDevelopment.suffix
+
+            val devProps = Properties().apply {
+                File(project.rootDir, FlavorTypeDevelopment.propFile).inputStream()
+                    .use { inputStream ->
+                        load(inputStream)
+                    }
+            }
+            buildConfigField("FEATURE_MODULE_NAMES", getFeatureNames())
+            for (key in devProps.keys()) {
+                buildConfigField("String", key as String, devProps[key] as String)
+            }
+        }
+
+        create(FlavorType.PRODUCTION) {
+            applicationIdSuffix = FlavorTypeProduction.suffix
+
+            val prodProps = Properties().apply {
+                File(project.rootDir, FlavorTypeDevelopment.propFile).inputStream()
+                    .use { inputStream ->
+                        load(inputStream)
+                    }
+            }
+            buildConfigField("FEATURE_MODULE_NAMES", getFeatureNames())
+            for (key in prodProps.keys()) {
+                buildConfigField("String", key as String, prodProps[key] as String)
+            }
+        }
+    }
+
     buildFeatures {
         dataBinding = true
         viewBinding = true
@@ -72,6 +105,26 @@ android {
 
     lint {
         isIgnoreTestSources = true
+    }
+
+    testOptions {
+        unitTests {
+            all {
+                if (it.name == "testDebugUnitTest") {
+                    extensions.configure(KoverTaskExtension::class) {
+                        isEnabled = true
+                        binaryReportFile.set(file("$buildDir/reports/kover/debug-report.bin"))
+                    }
+                }
+            }
+        }
+    }
+
+    kover {
+        isEnabled = true
+        coverageEngine.set(JACOCO)
+        jacocoEngineVersion.set("0.8.7")
+        generateReportOnCheck.set(true)
     }
 }
 
@@ -92,7 +145,7 @@ dependencies {
     api(libs.bundles.localstore)
 
     api(libs.bundles.database)
-    ksp(libs.room.ksp)
+    kapt(libs.room.kapt)
 
     api(libs.bundles.network)
 
@@ -121,12 +174,12 @@ fun BaseFlavor.buildConfigFieldFromGradleProperty(gradlePropertyName: String) {
     buildConfigField("String", androidResourceName, propertyValue)
 }
 
-fun getFeatureNames() = ModuleDependency
+fun getFeatureNames(): Array<String> = ModuleDependency
     .getFeatureModules()
     .map { it.replace(":feature_", "") }
     .toTypedArray()
 
-fun String.toSnakeCase() = this.split(Regex("(?=[A-Z])"))
+fun String.toSnakeCase(): String = this.split(Regex("(?=[A-Z])"))
     .joinToString("_") {
         it.toLowerCase()
     }

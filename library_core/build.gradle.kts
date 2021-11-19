@@ -1,3 +1,5 @@
+import kotlinx.kover.api.CoverageEngine.JACOCO
+
 plugins {
     with(GradlePluginId) {
         id(JAVA)
@@ -8,6 +10,13 @@ plugins {
 java {
     sourceCompatibility = JavaOptions.VERSION
     targetCompatibility = JavaOptions.VERSION
+}
+
+kover {
+    isEnabled = true
+    coverageEngine.set(JACOCO)
+    jacocoEngineVersion.set("0.8.7")
+    generateReportOnCheck.set(true)
 }
 
 dependencies {

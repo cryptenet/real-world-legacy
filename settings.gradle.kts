@@ -38,10 +38,8 @@ pluginManagement {
         val navigationVersion: String by settings
         id("androidx.navigation.safeargs.kotlin") version navigationVersion
 
-        val kspVersion: String by settings
-        id("com.google.devtools.ksp") version kspVersion
-
-        id("org.gradle.jacoco")
+        val koverVersion: String by settings
+        id("org.jetbrains.kotlinx.kover") version koverVersion
 
         val androidJUnit5Version: String by settings
         id("de.mannodermaus.android-junit5") version androidJUnit5Version
@@ -76,6 +74,5 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }

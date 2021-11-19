@@ -1,10 +1,13 @@
 import com.android.build.gradle.BaseExtension
 import io.gitlab.arturbosch.detekt.Detekt
+import kotlinx.kover.api.KoverTaskExtension
+import kotlinx.kover.tasks.KoverHtmlReportTask
 
 plugins {
     with(GradlePluginId) {
         id(DETEKT)
         id(KTLINT_GRADLE)
+        id(KOVER) apply false
         id(ANDROID_APPLICATION) apply false
         id(ANDROID_DYNAMIC_FEATURE) apply false
         id(ANDROID_LIBRARY) apply false
@@ -13,8 +16,6 @@ plugins {
         id(KOTLIN_PARCELIZE) apply false
         id(KOTLIN_SERIALIZATION) apply false
         id(SAFE_ARGS) apply false
-        id(KSP) apply false
-        id(JACOCO)
         id(ANDROID_JUNIT_5) apply false
     }
 }
@@ -46,14 +47,15 @@ allprojects {
 
 subprojects {
     apply(plugin = GradlePluginId.DETEKT)
-    apply(plugin = GradlePluginId.JACOCO)
+    apply(plugin = GradlePluginId.KOVER)
 
     detekt {
         config = files("$rootDir/detekt.yml")
 
         parallel = true
 
-        // By default detekt does not check test source set and gradle specific files, so hey have to be added manually
+        // By default detekt does not check test source set and gradle specific files,
+        // so hey have to be added manually
         source = files(
             "$rootDir/buildSrc",
             "$rootDir/build.gradle.kts",
@@ -63,27 +65,30 @@ subprojects {
         )
     }
 
-    jacoco {
-        val jacocoVersion: String by project
-        toolVersion = jacocoVersion
-    }
-
-    tasks.withType<JacocoReport>().all {
-        reports {
-            html.isEnabled = true
-            xml.isEnabled = false
-            csv.isEnabled = false
-        }
-    }
-
     tasks.withType<Test> {
         useJUnitPlatform {
             includeEngines.add("spek2")
         }
 
+        extensions.configure(KoverTaskExtension::class) {
+            isEnabled = true
+            binaryReportFile.set(file("$buildDir/reports/kover/debug-report.bin"))
+            includes = listOf("com\\.cryptenet\\.rwl_rest\\..*")
+            excludes = listOf("com\\.cryptenet\\.rwl_rest\\.databinding\\..*", "androidx\\..*")
+        }
+
         maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
 
-        finalizedBy("jacocoTestReport")
+        finalizedBy("koverHtmlReport")
+    }
+
+    tasks.withType<KoverHtmlReportTask> {
+        isEnabled = true
+        htmlReportDir.set(layout.buildDirectory.dir("reports/kover/html-result"))
+    }
+
+    tasks.withType<KoverHtmlReportTask> {
+        isEnabled = false
     }
 
     afterEvaluate {

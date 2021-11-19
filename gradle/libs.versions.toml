@@ -107,7 +107,7 @@ datastore-proto = { group = "androidx.datastore", name = "datastore-preferences"
 
 # ------Local Store------
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-ksp = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-kapt = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 # ------Play------
