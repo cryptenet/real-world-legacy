@@ -4,6 +4,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;[![Platform](https://img.shields.io/badge/platform-Android-green.svg?style=popout&logo=android)](https://www.android.com)
 &nbsp;&nbsp;&nbsp;&nbsp;[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=popout&logo=apache)](https://gitlab.com/cryptandroid/base-projects/legacy-base/-/blob/main/LICENSE)&nbsp;&nbsp;&nbsp;&nbsp;[![Version](https://img.shields.io/badge/version-0.0.1-brightgreen.svg?style=popout)](https://gitlab.com/cryptandroid/demo-apps/real-world-legacy)
 
+[![codebeat badge](https://codebeat.co/badges/9df6ef6f-dd55-416a-8248-1266ea6558e2)](https://codebeat.co/projects/github-com-cryptenet-real-world-legacy-main)
+
 ---
 
 #### Android ( ***AndroidX*** ) libraries used:
