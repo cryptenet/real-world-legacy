@@ -4,8 +4,7 @@ import com.cryptenet.library_core.providers.MappingDefaultsProvider
 
 fun String.validateToNull(): String? =
     if (
-        this.isBlank() ||
-        this.isEmpty() ||
+        this.isBlankOrEmpty() ||
         this == MappingDefaultsProvider.NOT_FOUND ||
         this == MappingDefaultsProvider.NOT_PROVIDED
     ) {

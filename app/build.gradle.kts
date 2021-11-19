@@ -114,6 +114,9 @@ android {
                     extensions.configure(KoverTaskExtension::class) {
                         isEnabled = true
                         binaryReportFile.set(file("$buildDir/reports/kover/debug-report.bin"))
+                        includes = listOf("com\\.cryptenet\\.rwl_rest\\..*")
+                        excludes =
+                            listOf("com\\.cryptenet\\.rwl_rest\\.databinding\\..*", "androidx\\..*")
                     }
                 }
             }

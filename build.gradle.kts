@@ -2,6 +2,7 @@ import com.android.build.gradle.BaseExtension
 import io.gitlab.arturbosch.detekt.Detekt
 import kotlinx.kover.api.KoverTaskExtension
 import kotlinx.kover.tasks.KoverHtmlReportTask
+import kotlinx.kover.tasks.KoverXmlReportTask
 
 plugins {
     with(GradlePluginId) {
@@ -79,16 +80,7 @@ subprojects {
 
         maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
 
-        finalizedBy("koverHtmlReport")
-    }
-
-    tasks.withType<KoverHtmlReportTask> {
-        isEnabled = true
-        htmlReportDir.set(layout.buildDirectory.dir("reports/kover/html-result"))
-    }
-
-    tasks.withType<KoverHtmlReportTask> {
-        isEnabled = false
+        finalizedBy("KoverHtmlReportTask")
     }
 
     afterEvaluate {
@@ -157,6 +149,15 @@ fun Project.configureAndroid() {
 
 tasks.withType<Detekt> {
     this.jvmTarget = JavaOptions.VERSION.toString()
+}
+
+tasks.withType<KoverHtmlReportTask> {
+    isEnabled = true
+    htmlReportDir.set(layout.buildDirectory.dir("reports/kover/html-report"))
+}
+
+tasks.withType<KoverXmlReportTask> {
+    isEnabled = false
 }
 
 task("staticCheck") {
