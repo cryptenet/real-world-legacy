@@ -1,6 +1,7 @@
 package com.cryptenet.rwl_rest
 
 import android.content.Context
+import com.facebook.stetho.Stetho
 import com.google.android.play.core.splitcompat.SplitCompatApplication
 import org.kodein.di.DI
 import org.kodein.di.DIAware
@@ -21,11 +22,18 @@ class RealWorldApplication : SplitCompatApplication(), DIAware {
         context = this
 
         initTimber()
+        initStetho()
     }
 
     private fun initTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+        }
+    }
+
+    private fun initStetho() {
+        if (BuildConfig.DEBUG) {
+            Stetho.initializeWithDefaults(this)
         }
     }
 }

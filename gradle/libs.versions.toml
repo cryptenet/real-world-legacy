@@ -48,6 +48,7 @@ play-core = "1.8.2"
 
 # ------Logging------
 timber = "5.0.1"
+stetho = "1.6.0"
 
 # ------Logging------
 leakcanary = "2.7"
@@ -123,6 +124,8 @@ coil = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 
 # ------Logging------
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+stetho-core = { group = "com.facebook.stetho", name = "stetho", version.ref = "stetho" }
+stetho-okhttp = { group = "com.facebook.stetho", name = "stetho-okhttp3", version.ref = "stetho" }
 
 # ------Leak Canary------
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
@@ -162,6 +165,7 @@ navigation = ["navigation-fragment", "navigation-ui-ktx"]
 localstore = ["datastore-pref", "datastore-proto"]
 database = ["room-runtime", "room-ktx"]
 network = ["retrofit-core", "retrofit-serialization", "okhttp-interceptor"]
+stetho = ["stetho-core", "stetho-okhttp"]
 test-unit = [
     "mockk-core", "mockk-agent", "truth-core", "truth-java",
     "test-coroutines",

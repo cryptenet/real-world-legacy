@@ -154,6 +154,7 @@ dependencies {
     api(libs.bundles.kodein)
 
     api(libs.timber)
+    implementation(libs.bundles.stetho)
 
     debugApi(libs.leakcanary)
 
